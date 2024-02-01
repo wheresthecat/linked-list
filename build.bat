@@ -1,0 +1,1 @@
+cl -Zi -std:c17 test.c linked_list.c
