@@ -15,5 +15,6 @@ node *create_node(int data);
 void list_append(list *srcList, int value);
 void list_print(list *srcList);
 
+int list_get_value(list *srcList, int index);
 
 #endif

@@ -74,5 +74,27 @@ void list_print(list *srcList)
     }
 }
 
+int list_get_value(list *srcList, int index)
+{
+    node *tempNode = NULL;
+    tempNode = srcList->first;
+
+    if(tempNode == NULL)
+    {
+        return 0;
+    }
+    
+    for(int i = 0; i < index; i++)
+    {
+        tempNode = tempNode->next;
+        if(tempNode == NULL)
+        {
+            return 0;
+        }
+    }
+
+    return tempNode->data;
+}
+
 
 
