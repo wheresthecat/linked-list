@@ -30,13 +30,13 @@ node *create_node(int data)
     return newNode;
 }
 
-void list_append(list *srcList, int data)
+void list_append(list *srcList, int value)
 {
     node *newNode = NULL;
 
     if(srcList->first == NULL)
     {
-        newNode = create_node(data);
+        newNode = create_node(value);
         srcList->first = newNode;
     }
     else 
@@ -47,7 +47,7 @@ void list_append(list *srcList, int data)
             currentNode = currentNode->next;
         }
 
-        newNode = create_node(data);
+        newNode = create_node(value);
         currentNode->next = newNode;
     }
 }
@@ -64,36 +64,93 @@ void list_print(list *srcList)
     }
     else
     {
-        printf("%d, ", currentNode->data);
+        printf("%d ", currentNode->data);
         while(currentNode->next != NULL)
         {
             currentNode = currentNode->next;
-            printf("%d, ", currentNode->data);
+            printf("%d ", currentNode->data);
         }
         printf("\n");
     }
 }
 
-int list_get_value(list *srcList, int index)
+node *list_get_node(list *srcList, int index)
 {
-    node *tempNode = NULL;
-    tempNode = srcList->first;
-
-    if(tempNode == NULL)
+    node *currentNode = srcList->first;
+    int nodeCounter = 0;
+    while(currentNode != NULL)
     {
-        return 0;
-    }
-    
-    for(int i = 0; i < index; i++)
-    {
-        tempNode = tempNode->next;
-        if(tempNode == NULL)
+        if(nodeCounter == index)
         {
-            return 0;
+            break;
         }
+        nodeCounter++;
+        currentNode = currentNode->next;
     }
 
-    return tempNode->data;
+    if(nodeCounter != index)
+    {
+        return NULL;
+    }
+
+    return currentNode;
+}
+
+void list_del_node(list *srcList, int index)
+{
+    node *targetNode = list_get_node(srcList, index);
+    node *nextNode = list_get_node(srcList, index + 1);
+    if(index == 0)
+    {
+        free(targetNode);
+        srcList->first = nextNode;
+        goto END;
+    }
+
+    node *previousNode = list_get_node(srcList, index-1);
+
+    free(targetNode);
+    previousNode->next = nextNode;
+    END:
+    ;
+}
+
+void list_del_last(list *srcList)
+{
+    node *currentNode = srcList->first;
+    node *previousNode = NULL;
+    while(currentNode->next != NULL)
+    {
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+    free(currentNode);
+    previousNode->next = NULL;
+}
+
+void list_del_first(list *srcList)
+{
+    node *firstNode = srcList->first;
+    node *nextNode = firstNode->next;
+    free(firstNode);
+    srcList->first = nextNode;
+}
+
+void list_destroy(list *srcList)
+{
+    node *currentNode = srcList->first;
+    node *nextNode = currentNode->next;
+
+    while(currentNode->next != NULL)
+    {
+        free(currentNode);
+        currentNode = nextNode;
+        nextNode = currentNode->next;
+    }
+    free(nextNode);
+    free(currentNode);
+
+    free(srcList);
 }
 
 

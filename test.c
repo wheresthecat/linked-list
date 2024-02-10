@@ -15,25 +15,30 @@ int main(int argc, char* argv[])
 
 void linked_list_test()
 {
-    list *numbers = list_init();
+    // List creation
+    printf("List creation, and appending.\n");
+    list *mrkev = list_init();
 
-    list_append(numbers, 1);
-    list_append(numbers, 2);
-    list_append(numbers, 3);
-    list_append(numbers, 4);
-    list_append(numbers, 5);
-    list_append(numbers, 6);
-    list_append(numbers, 7);
-    list_append(numbers, 8);
-
-    for(int i = 0; i < 100000; i++)
+    for(int i = 0; i < 10; i++)
     {
-        list_append(numbers, i);
+        list_append(mrkev, i);
     }
 
+    printf("Printing the list.\n\n");
+    
 
+    list_print(mrkev);
 
-    printf("End.\n");
+    list_del_last(mrkev);
+
+    list_print(mrkev);
+
+    list_del_last(mrkev);
+
+    list_print(mrkev);
+    
+
+    list_destroy(mrkev);
+
+    printf("\nEnd\n");
 }
-
-// What if in the head is also saved addres of last node, maybe with node count?
